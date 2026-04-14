@@ -12,7 +12,7 @@ class RequestContextTest {
 
     @Test
     void createsContextWithRequestId() {
-        var ctx = new RequestContext("127.0.0.1", null, Set.of(), null);
+        var ctx = RequestContext.anonymous("127.0.0.1", null, Set.of());
         assertNotNull(ctx.requestId());
     }
 
@@ -25,20 +25,20 @@ class RequestContextTest {
 
     @Test
     void anonymousUserHasNullUserId() {
-        var ctx = new RequestContext("127.0.0.1", null, Set.of("anonymous"), null);
+        var ctx = RequestContext.anonymous("127.0.0.1", null, Set.of("anonymous"));
         assertNull(ctx.userId());
     }
 
     @Test
     void authenticatedUserHasUserId() {
         var userId = UUID.randomUUID();
-        var ctx = new RequestContext("127.0.0.1", userId, Set.of("user"), null);
+        var ctx = RequestContext.anonymous("127.0.0.1", userId, Set.of("user"));
         assertEquals(userId, ctx.userId());
     }
 
     @Test
     void hasRoleChecksRoleMembership() {
-        var ctx = new RequestContext("127.0.0.1", null, Set.of("user", "admin"), null);
+        var ctx = RequestContext.anonymous("127.0.0.1", null, Set.of("user", "admin"));
         assertTrue(ctx.hasRole("admin"));
         assertFalse(ctx.hasRole("anonymous"));
     }

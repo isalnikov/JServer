@@ -21,9 +21,14 @@ public record RequestContext(
 
     /**
      * Создаёт контекст с автогенерированным requestId.
+     *
+     * @param clientIpAddress IP-адрес клиента
+     * @param userId идентификатор пользователя (null для анонимов)
+     * @param роли набор ролей
+     * @return новый контекст запроса
      */
-    public RequestContext(String clientIpAddress, UUID userId, Set<String> roles, Object _unused) {
-        this(UUID.randomUUID().toString(), clientIpAddress, userId, roles);
+    public static RequestContext anonymous(String clientIpAddress, UUID userId, Set<String> roles) {
+        return new RequestContext(UUID.randomUUID().toString(), clientIpAddress, userId, roles);
     }
 
     /**
