@@ -21,10 +21,10 @@ public record JsonRpcError(
     public static final int INVALID_PARAMS = -32602;
     public static final int INTERNAL_ERROR = -32603;
 
-    // Кастомные коды JServer
-    public static final int RATE_LIMIT_EXCEEDED = -32605;
-    public static final int UNAUTHORIZED = -32606;
-    public static final int FORBIDDEN = -32607;
+    // Кастомные коды JServer (диапазон сервера JSON-RPC 2.0: -32000...-32099)
+    public static final int RATE_LIMIT_EXCEEDED = -32001;
+    public static final int UNAUTHORIZED = -32002;
+    public static final int FORBIDDEN = -32003;
 
     /**
      * Создаёт ошибку parse error.
