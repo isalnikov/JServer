@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RpcHttpHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.server</a> &gt; <span class="el_source">RpcHttpHandler.java</span></div><h1>RpcHttpHandler.java</h1><pre class="source lang-java linenums">package org.jserver.server;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import org.jserver.api.JsonRpcError;
+import org.jserver.api.JsonRpcRequest;
+import org.jserver.api.JsonRpcResponse;
+import org.jserver.api.RequestContext;
+import org.jserver.core.HealthService;
+import org.jserver.middleware.MiddlewareChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+/**
+ * HTTP обработчик JSON-RPC.
+ * Принимает HTTP запросы, преобразует в JSON-RPC и передаёт в dispatcher.
+ */
+public class RpcHttpHandler implements HttpHandler {
+
+<span class="fc" id="L25">    private static final Logger logger = LoggerFactory.getLogger(RpcHttpHandler.class);</span>
+    private static final String CONTENT_TYPE = &quot;application/json&quot;;
+
+    private final MiddlewareChain chain;
+    private final HealthService healthService;
+    private final ObjectMapper objectMapper;
+
+    /**
+     * Создаёт обработчик.
+     *
+     * @param chain цепочка middleware
+     * @param healthService сервис health check
+     */
+<span class="fc" id="L38">    public RpcHttpHandler(MiddlewareChain chain, HealthService healthService) {</span>
+<span class="fc" id="L39">        this.chain = chain;</span>
+<span class="fc" id="L40">        this.healthService = healthService;</span>
+<span class="fc" id="L41">        this.objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L42">        logger.info(&quot;RpcHttpHandler created&quot;);</span>
+<span class="fc" id="L43">    }</span>
+
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+<span class="nc" id="L47">        String path = exchange.getRequestURI().getPath();</span>
+
+        try {
+<span class="nc bnc" id="L50" title="All 4 branches missed.">            switch (path) {</span>
+<span class="nc" id="L51">                case &quot;/rpc&quot; -&gt; handleRpc(exchange);</span>
+<span class="nc" id="L52">                case &quot;/health&quot; -&gt; handleHealth(exchange);</span>
+<span class="nc" id="L53">                case &quot;/version&quot; -&gt; handleVersion(exchange);</span>
+<span class="nc" id="L54">                default -&gt; sendNotFound(exchange);</span>
+            }
+<span class="nc" id="L56">        } catch (Exception e) {</span>
+<span class="nc" id="L57">            logger.error(&quot;Unhandled exception&quot;, e);</span>
+<span class="nc" id="L58">            sendJsonResponse(exchange, 500,</span>
+<span class="nc" id="L59">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.internalError(e.getMessage()), null));</span>
+        } finally {
+<span class="nc" id="L61">            exchange.close();</span>
+        }
+<span class="nc" id="L63">    }</span>
+
+    private void handleRpc(HttpExchange exchange) throws IOException {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (!&quot;POST&quot;.equals(exchange.getRequestMethod())) {</span>
+<span class="nc" id="L67">            sendJsonResponse(exchange, 405,</span>
+<span class="nc" id="L68">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.invalidRequest(&quot;POST required&quot;), null));</span>
+<span class="nc" id="L69">            return;</span>
+        }
+
+<span class="nc" id="L72">        String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);</span>
+<span class="nc" id="L73">        JsonRpcRequest request = parseJsonRpc(body);</span>
+
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (request == null) {</span>
+<span class="nc" id="L76">            sendJsonResponse(exchange, 400,</span>
+<span class="nc" id="L77">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.parseError(), null));</span>
+<span class="nc" id="L78">            return;</span>
+        }
+
+<span class="nc" id="L81">        String ip = exchange.getRemoteAddress().getAddress().getHostAddress();</span>
+<span class="nc" id="L82">        var ctx = RequestContext.anonymous(ip, null, java.util.Set.of(&quot;anonymous&quot;));</span>
+
+<span class="nc" id="L84">        chain.proceed(ctx, request).thenAccept(response -&gt; {</span>
+            try {
+<span class="nc" id="L86">                sendJsonResponse(exchange, 200, response);</span>
+<span class="nc" id="L87">            } catch (IOException e) {</span>
+<span class="nc" id="L88">                logger.error(&quot;Failed to send response&quot;, e);</span>
+<span class="nc" id="L89">            }</span>
+<span class="nc" id="L90">        }).join();</span>
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * Парсит JSON-RPC запрос из тела HTTP.
+     *
+     * @param body тело запроса
+     * @return JSON-RPC запрос или null при ошибке
+     */
+    public JsonRpcRequest parseJsonRpc(String body) {
+        try {
+            @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L102">            Map&lt;String, Object&gt; map = objectMapper.readValue(body, Map.class);</span>
+<span class="fc" id="L103">            return new JsonRpcRequest(</span>
+<span class="fc" id="L104">                (String) map.get(&quot;jsonrpc&quot;),</span>
+<span class="fc" id="L105">                (String) map.get(&quot;method&quot;),</span>
+<span class="fc" id="L106">                map.get(&quot;params&quot;),</span>
+<span class="fc" id="L107">                map.get(&quot;id&quot;));</span>
+<span class="fc" id="L108">        } catch (Exception e) {</span>
+<span class="fc" id="L109">            logger.error(&quot;Failed to parse JSON-RPC request: {}&quot;, e.getMessage());</span>
+<span class="fc" id="L110">            return null;</span>
+        }
+    }
+
+    private void handleHealth(HttpExchange exchange) throws IOException {
+<span class="nc" id="L115">        Map&lt;String, Object&gt; health = healthService.getHealth();</span>
+<span class="nc" id="L116">        byte[] response = objectMapper.writeValueAsBytes(health);</span>
+<span class="nc" id="L117">        exchange.getResponseHeaders().set(&quot;Content-Type&quot;, CONTENT_TYPE);</span>
+<span class="nc" id="L118">        exchange.sendResponseHeaders(200, response.length);</span>
+<span class="nc" id="L119">        try (OutputStream os = exchange.getResponseBody()) {</span>
+<span class="nc" id="L120">            os.write(response);</span>
+        }
+<span class="nc" id="L122">    }</span>
+
+    private void handleVersion(HttpExchange exchange) throws IOException {
+<span class="nc" id="L125">        Map&lt;String, String&gt; version = healthService.getVersion();</span>
+<span class="nc" id="L126">        byte[] response = objectMapper.writeValueAsBytes(version);</span>
+<span class="nc" id="L127">        exchange.getResponseHeaders().set(&quot;Content-Type&quot;, CONTENT_TYPE);</span>
+<span class="nc" id="L128">        exchange.sendResponseHeaders(200, response.length);</span>
+<span class="nc" id="L129">        try (OutputStream os = exchange.getResponseBody()) {</span>
+<span class="nc" id="L130">            os.write(response);</span>
+        }
+<span class="nc" id="L132">    }</span>
+
+    private void sendNotFound(HttpExchange exchange) throws IOException {
+<span class="nc" id="L135">        sendJsonResponse(exchange, 404,</span>
+<span class="nc" id="L136">            JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.methodNotFound(&quot;path not found&quot;), null));</span>
+<span class="nc" id="L137">    }</span>
+
+    private void sendJsonResponse(HttpExchange exchange, int statusCode, JsonRpcResponse response)
+            throws IOException {
+<span class="nc" id="L141">        byte[] body = objectMapper.writeValueAsBytes(response);</span>
+<span class="nc" id="L142">        exchange.getResponseHeaders().set(&quot;Content-Type&quot;, CONTENT_TYPE);</span>
+<span class="nc" id="L143">        exchange.getResponseHeaders().set(&quot;Content-Length&quot;, String.valueOf(body.length));</span>
+<span class="nc" id="L144">        exchange.sendResponseHeaders(statusCode, body.length);</span>
+<span class="nc" id="L145">        try (OutputStream os = exchange.getResponseBody()) {</span>
+<span class="nc" id="L146">            os.write(body);</span>
+        }
+<span class="nc" id="L148">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

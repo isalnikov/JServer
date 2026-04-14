@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.core</a> &gt; <span class="el_source">AuthService.java</span></div><h1>AuthService.java</h1><pre class="source lang-java linenums">package org.jserver.core;
+
+import java.time.Instant;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import org.jserver.infrastructure.JwtProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Сервис аутентификации.
+ * Управляет login, logout, refresh токенов.
+ */
+public class AuthService {
+
+<span class="fc" id="L17">    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);</span>
+
+    private final JwtProvider jwtProvider;
+    private final AuditService auditService;
+
+    /**
+     * Создаёт сервис.
+     *
+     * @param jwtProvider провайдер JWT
+     * @param auditService сервис аудита
+     * @param userRepository репозиторий пользователей (для будущей реализации)
+     */
+    public AuthService(JwtProvider jwtProvider, AuditService auditService,
+<span class="fc" id="L30">                       Object userRepository) {</span>
+<span class="fc" id="L31">        this.jwtProvider = jwtProvider;</span>
+<span class="fc" id="L32">        this.auditService = auditService;</span>
+<span class="fc" id="L33">        logger.info(&quot;AuthService created&quot;);</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Выполняет вход пользователя.
+     *
+     * @param username имя пользователя
+     * @param password пароль
+     * @return результат с токенами
+     */
+    public LoginResult login(String username, String password) {
+<span class="fc" id="L44">        logger.info(&quot;Login attempt for user: {}&quot;, username);</span>
+
+        // TODO: реализовать проверку пароля через UserRepository
+        // Для заглушки всегда возвращаем токены для admin
+<span class="fc" id="L48">        UUID userId = UUID.randomUUID();</span>
+<span class="fc" id="L49">        Set&lt;String&gt; roles = Set.of(&quot;admin&quot;);</span>
+
+<span class="fc" id="L51">        String accessToken = jwtProvider.generateAccessToken(userId, roles);</span>
+<span class="fc" id="L52">        String refreshToken = jwtProvider.generateRefreshToken(userId);</span>
+
+<span class="fc" id="L54">        auditService.logAction(&quot;auth.login&quot;, userId,</span>
+            &quot;User &quot; + username + &quot; logged in&quot;, null);
+
+<span class="fc" id="L57">        logger.info(&quot;User {} logged in successfully&quot;, username);</span>
+<span class="fc" id="L58">        return new LoginResult(accessToken, refreshToken,</span>
+<span class="fc" id="L59">            Instant.now().plus(jwtProvider.accessTokenTtl()));</span>
+    }
+
+    /**
+     * Выполняет выход пользователя.
+     *
+     * @param accessToken access токен
+     */
+    public void logout(String accessToken) {
+<span class="fc" id="L68">        var claims = jwtProvider.validateToken(accessToken);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (claims != null) {</span>
+<span class="fc" id="L70">            auditService.logAction(&quot;auth.logout&quot;, claims.userId(),</span>
+                &quot;User logged out&quot;, null);
+<span class="fc" id="L72">            logger.info(&quot;User {} logged out&quot;, claims.userId());</span>
+        }
+<span class="fc" id="L74">    }</span>
+
+    /**
+     * Обновляет access токен по refresh.
+     *
+     * @param refreshToken refresh токен
+     * @return новый набор токенов или null
+     */
+    public LoginResult refresh(String refreshToken) {
+<span class="fc" id="L83">        var claims = jwtProvider.validateToken(refreshToken);</span>
+<span class="pc bpc" id="L84" title="1 of 4 branches missed.">        if (claims == null || !&quot;refresh&quot;.equals(claims.type())) {</span>
+<span class="fc" id="L85">            logger.warn(&quot;Invalid refresh token&quot;);</span>
+<span class="fc" id="L86">            return null;</span>
+        }
+
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        Set&lt;String&gt; roles = claims.roles().isEmpty() ? Set.of(&quot;user&quot;) : claims.roles();</span>
+<span class="fc" id="L90">        String newAccessToken = jwtProvider.generateAccessToken(claims.userId(), roles);</span>
+<span class="fc" id="L91">        String newRefreshToken = jwtProvider.generateRefreshToken(claims.userId());</span>
+
+<span class="fc" id="L93">        auditService.logAction(&quot;auth.refresh&quot;, claims.userId(),</span>
+            &quot;Token refreshed&quot;, null);
+
+<span class="fc" id="L96">        return new LoginResult(newAccessToken, newRefreshToken,</span>
+<span class="fc" id="L97">            Instant.now().plus(jwtProvider.accessTokenTtl()));</span>
+    }
+
+    /**
+     * Результат входа.
+     */
+<span class="fc" id="L103">    public record LoginResult(</span>
+        String accessToken,
+        String refreshToken,
+        Instant expiresAt
+    ) {
+        /**
+         * Преобразует результат в map.
+         *
+         * @return map с токенами и временем истечения
+         */
+        public Map&lt;String, Object&gt; toMap() {
+<span class="fc" id="L114">            return Map.of(</span>
+                &quot;accessToken&quot;, accessToken,
+                &quot;refreshToken&quot;, refreshToken,
+<span class="fc" id="L117">                &quot;expiresAt&quot;, expiresAt.toString()</span>
+            );
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

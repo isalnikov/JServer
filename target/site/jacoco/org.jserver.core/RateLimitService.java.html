@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RateLimitService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.core</a> &gt; <span class="el_source">RateLimitService.java</span></div><h1>RateLimitService.java</h1><pre class="source lang-java linenums">package org.jserver.core;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Сервис rate limiting на основе token bucket.
+ * Потокобезопасный, хранит buckets per IP.
+ */
+public class RateLimitService {
+
+<span class="fc" id="L14">    private static final Logger logger = LoggerFactory.getLogger(RateLimitService.class);</span>
+    
+    private final int defaultCapacity;
+    private final int defaultRefillRate;
+<span class="fc" id="L18">    private final Map&lt;String, TokenBucket&gt; buckets = new ConcurrentHashMap&lt;&gt;();</span>
+
+    /**
+     * Создаёт сервис с настройками по умолчанию.
+     *
+     * @param defaultCapacity ёмкость bucket
+     * @param defaultRefillRate скорость пополнения (токенов/минуту)
+     */
+<span class="fc" id="L26">    public RateLimitService(int defaultCapacity, int defaultRefillRate) {</span>
+<span class="fc" id="L27">        this.defaultCapacity = defaultCapacity;</span>
+<span class="fc" id="L28">        this.defaultRefillRate = defaultRefillRate;</span>
+<span class="fc" id="L29">        logger.info(&quot;RateLimitService created: capacity={}, refillRate={}/min&quot;, </span>
+<span class="fc" id="L30">            defaultCapacity, defaultRefillRate);</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Пытается потребить токен для IP.
+     *
+     * @param clientIp IP-адрес клиента
+     * @return true если токен доступен, false если лимит исчерпан
+     */
+    public boolean tryConsume(String clientIp) {
+<span class="fc" id="L40">        var bucket = buckets.computeIfAbsent(clientIp, </span>
+<span class="fc" id="L41">            ip -&gt; new TokenBucket(defaultCapacity, defaultRefillRate));</span>
+        
+<span class="fc" id="L43">        boolean consumed = bucket.tryConsume();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (!consumed) {</span>
+<span class="fc" id="L45">            logger.warn(&quot;Rate limit exceeded for IP: {}&quot;, clientIp);</span>
+        }
+<span class="fc" id="L47">        return consumed;</span>
+    }
+
+    /**
+     * Token bucket с refill.
+     */
+    private static class TokenBucket {
+        private final int capacity;
+        private final long refillIntervalNanos;
+        private int tokens;
+        private volatile long lastRefillTime;
+
+<span class="fc" id="L59">        TokenBucket(int capacity, int refillRatePerMinute) {</span>
+<span class="fc" id="L60">            this.capacity = capacity;</span>
+<span class="fc" id="L61">            this.tokens = capacity;</span>
+<span class="fc" id="L62">            this.refillIntervalNanos = 60_000_000_000L / refillRatePerMinute;</span>
+<span class="fc" id="L63">            this.lastRefillTime = System.nanoTime();</span>
+<span class="fc" id="L64">        }</span>
+
+        synchronized boolean tryConsume() {
+<span class="fc" id="L67">            refill();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            if (tokens &gt; 0) {</span>
+<span class="fc" id="L69">                tokens--;</span>
+<span class="fc" id="L70">                return true;</span>
+            }
+<span class="fc" id="L72">            return false;</span>
+        }
+
+        private void refill() {
+<span class="fc" id="L76">            long now = System.nanoTime();</span>
+<span class="fc" id="L77">            long elapsed = now - lastRefillTime;</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">            if (elapsed &gt;= refillIntervalNanos) {</span>
+<span class="nc" id="L79">                int tokensToAdd = (int) (elapsed / refillIntervalNanos);</span>
+<span class="nc" id="L80">                tokens = Math.min(capacity, tokens + tokensToAdd);</span>
+<span class="nc" id="L81">                lastRefillTime = now;</span>
+            }
+<span class="fc" id="L83">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

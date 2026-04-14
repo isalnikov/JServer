@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonRpcError.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.api</a> &gt; <span class="el_source">JsonRpcError.java</span></div><h1>JsonRpcError.java</h1><pre class="source lang-java linenums">package org.jserver.api;
+
+/**
+ * JSON-RPC 2.0 ошибка.
+ * Содержит код, сообщение и опциональные данные.
+ *
+ * @param code код ошибки (отрицательное число)
+ * @param message человекочитаемое сообщение
+ * @param data дополнительные данные (может быть null)
+ */
+<span class="fc" id="L11">public record JsonRpcError(</span>
+    int code,
+    String message,
+    Object data
+) {
+
+    // Стандартные коды ошибок JSON-RPC 2.0
+    public static final int PARSE_ERROR = -32700;
+    public static final int INVALID_REQUEST = -32600;
+    public static final int METHOD_NOT_FOUND = -32601;
+    public static final int INVALID_PARAMS = -32602;
+    public static final int INTERNAL_ERROR = -32603;
+
+    // Кастомные коды JServer (диапазон сервера JSON-RPC 2.0: -32000...-32099)
+    public static final int RATE_LIMIT_EXCEEDED = -32001;
+    public static final int UNAUTHORIZED = -32002;
+    public static final int FORBIDDEN = -32003;
+
+    /**
+     * Создаёт ошибку parse error.
+     *
+     * @return ошибка парсинга JSON
+     */
+    public static JsonRpcError parseError() {
+<span class="fc" id="L35">        return new JsonRpcError(PARSE_ERROR, &quot;Parse error&quot;, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку invalid request.
+     *
+     * @param details детали ошибки
+     * @return ошибка неверного запроса
+     */
+    public static JsonRpcError invalidRequest(String details) {
+<span class="fc" id="L45">        return new JsonRpcError(INVALID_REQUEST, &quot;Invalid Request: &quot; + details, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку method not found.
+     *
+     * @param method имя ненайденного метода
+     * @return ошибка неизвестного метода
+     */
+    public static JsonRpcError methodNotFound(String method) {
+<span class="fc" id="L55">        return new JsonRpcError(METHOD_NOT_FOUND, &quot;Method not found: &quot; + method, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку invalid params.
+     *
+     * @param details описание проблемы с параметрами
+     * @return ошибка неверных параметров
+     */
+    public static JsonRpcError invalidParams(String details) {
+<span class="fc" id="L65">        return new JsonRpcError(INVALID_PARAMS, &quot;Invalid params: &quot; + details, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку internal error.
+     *
+     * @param details детали внутренней ошибки
+     * @return внутренняя ошибка сервера
+     */
+    public static JsonRpcError internalError(String details) {
+<span class="fc" id="L75">        return new JsonRpcError(INTERNAL_ERROR, &quot;Internal error: &quot; + details, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку превышения rate limit.
+     *
+     * @return ошибка rate limit
+     */
+    public static JsonRpcError rateLimitExceeded() {
+<span class="fc" id="L84">        return new JsonRpcError(RATE_LIMIT_EXCEEDED, &quot;Rate limit exceeded&quot;, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку авторизации.
+     *
+     * @return ошибка отсутствия или неверного токена
+     */
+    public static JsonRpcError unauthorized() {
+<span class="fc" id="L93">        return new JsonRpcError(UNAUTHORIZED, &quot;Unauthorized&quot;, null);</span>
+    }
+
+    /**
+     * Создаёт ошибку прав доступа.
+     *
+     * @return ошибка недостаточных прав
+     */
+    public static JsonRpcError forbidden() {
+<span class="fc" id="L102">        return new JsonRpcError(FORBIDDEN, &quot;Forbidden&quot;, null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

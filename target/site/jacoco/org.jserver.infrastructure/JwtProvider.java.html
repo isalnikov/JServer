@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.infrastructure</a> &gt; <span class="el_source">JwtProvider.java</span></div><h1>JwtProvider.java</h1><pre class="source lang-java linenums">package org.jserver.infrastructure;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Base64;
+import java.util.Set;
+import java.util.UUID;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Провайдер JWT-токенов.
+ * Генерирует и валидирует access/refresh токены.
+ * Использует HS256 алгоритм.
+ */
+public class JwtProvider {
+
+<span class="fc" id="L22">    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);</span>
+
+    private final String secret;
+    private final Duration accessTokenTtl;
+    private final Duration refreshTokenTtl;
+
+    /**
+     * Создаёт провайдер.
+     *
+     * @param secret секретный ключ (минимум 256 бит)
+     * @param accessTokenTtl время жизни access токена
+     * @param refreshTokenTtl время жизни refresh токена
+     */
+<span class="fc" id="L35">    public JwtProvider(String secret, Duration accessTokenTtl, Duration refreshTokenTtl) {</span>
+<span class="fc" id="L36">        this.secret = secret;</span>
+<span class="fc" id="L37">        this.accessTokenTtl = accessTokenTtl;</span>
+<span class="fc" id="L38">        this.refreshTokenTtl = refreshTokenTtl;</span>
+<span class="fc" id="L39">        logger.info(&quot;JwtProvider created with accessTtl={}, refreshTtl={}&quot;,</span>
+            accessTokenTtl, refreshTokenTtl);
+<span class="fc" id="L41">    }</span>
+
+    /**
+     * Генерирует access токен.
+     *
+     * @param userId идентификатор пользователя
+     * @param roles роли пользователя
+     * @return JWT токен
+     */
+    public String generateAccessToken(UUID userId, Set&lt;String&gt; roles) {
+<span class="fc" id="L51">        return createToken(userId, &quot;access&quot;, roles, accessTokenTtl);</span>
+    }
+
+    /**
+     * Генерирует refresh токен.
+     *
+     * @param userId идентификатор пользователя
+     * @return JWT токен
+     */
+    public String generateRefreshToken(UUID userId) {
+<span class="fc" id="L61">        return createToken(userId, &quot;refresh&quot;, Set.of(), refreshTokenTtl);</span>
+    }
+
+    /**
+     * Валидирует токен и возвращает claims.
+     *
+     * @param token JWT токен
+     * @return claims или null при неверном токене
+     */
+    public TokenClaims validateToken(String token) {
+        try {
+<span class="fc" id="L72">            String[] parts = token.split(&quot;\\.&quot;);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            if (parts.length != 3) {</span>
+<span class="fc" id="L74">                return null;</span>
+            }
+
+<span class="fc" id="L77">            String expectedSignature = sign(parts[0] + &quot;.&quot; + parts[1]);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            if (!parts[2].equals(expectedSignature)) {</span>
+<span class="fc" id="L79">                return null;</span>
+            }
+
+<span class="fc" id="L82">            String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);</span>
+<span class="fc" id="L83">            String[] payloadParts = payload.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (payloadParts.length &lt; 3) {</span>
+<span class="nc" id="L85">                return null;</span>
+            }
+
+<span class="fc" id="L88">            UUID userId = UUID.fromString(payloadParts[0]);</span>
+<span class="fc" id="L89">            String type = payloadParts[1];</span>
+<span class="fc" id="L90">            long exp = Long.parseLong(payloadParts[2]);</span>
+
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">            if (Instant.ofEpochSecond(exp).isBefore(Instant.now())) {</span>
+<span class="nc" id="L93">                return null;</span>
+            }
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            Set&lt;String&gt; roles = payloadParts.length &gt; 3</span>
+<span class="fc" id="L97">                ? Set.of(payloadParts[3].split(&quot;\\|&quot;))</span>
+<span class="fc" id="L98">                : Set.of();</span>
+
+<span class="fc" id="L100">            return new TokenClaims(userId, type, roles, Instant.ofEpochSecond(exp));</span>
+
+<span class="nc" id="L102">        } catch (Exception e) {</span>
+<span class="nc" id="L103">            logger.debug(&quot;Token validation failed: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L104">            return null;</span>
+        }
+    }
+
+    /**
+     * Создаёт хеш refresh токена для хранения в БД.
+     *
+     * @param token raw токен
+     * @return SHA-256 хеш
+     */
+    public String hashToken(String token) {
+        try {
+<span class="fc" id="L116">            MessageDigest digest = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L117">            byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L118">            return Base64.getUrlEncoder().encodeToString(hash);</span>
+<span class="nc" id="L119">        } catch (Exception e) {</span>
+<span class="nc" id="L120">            throw new RuntimeException(&quot;Failed to hash token&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Возвращает время жизни access токена.
+     *
+     * @return TTL access токена
+     */
+    public Duration accessTokenTtl() {
+<span class="fc" id="L130">        return accessTokenTtl;</span>
+    }
+
+    private String createToken(UUID userId, String type, Set&lt;String&gt; roles, Duration ttl) {
+<span class="fc" id="L134">        String header = Base64.getUrlEncoder().encodeToString(</span>
+<span class="fc" id="L135">            &quot;{\&quot;alg\&quot;:\&quot;HS256\&quot;,\&quot;typ\&quot;:\&quot;JWT\&quot;}&quot;.getBytes(StandardCharsets.UTF_8));</span>
+
+<span class="fc" id="L137">        Instant exp = Instant.now().plus(ttl);</span>
+<span class="fc" id="L138">        String rolesStr = String.join(&quot;|&quot;, roles);</span>
+<span class="fc" id="L139">        String payload = userId.toString() + &quot;,&quot; + type + &quot;,&quot; + exp.getEpochSecond()</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            + (rolesStr.isEmpty() ? &quot;&quot; : &quot;,&quot; + rolesStr);</span>
+<span class="fc" id="L141">        String encodedPayload = Base64.getUrlEncoder()</span>
+<span class="fc" id="L142">            .encodeToString(payload.getBytes(StandardCharsets.UTF_8));</span>
+
+<span class="fc" id="L144">        String signature = sign(header + &quot;.&quot; + encodedPayload);</span>
+<span class="fc" id="L145">        return header + &quot;.&quot; + encodedPayload + &quot;.&quot; + signature;</span>
+    }
+
+    private String sign(String data) {
+        try {
+<span class="fc" id="L150">            Mac mac = Mac.getInstance(&quot;HmacSHA256&quot;);</span>
+<span class="fc" id="L151">            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), &quot;HmacSHA256&quot;));</span>
+<span class="fc" id="L152">            byte[] signature = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L153">            return Base64.getUrlEncoder().encodeToString(signature);</span>
+<span class="nc" id="L154">        } catch (Exception e) {</span>
+<span class="nc" id="L155">            throw new RuntimeException(&quot;Failed to sign token&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Claims из валидированного токена.
+     */
+<span class="fc" id="L162">    public record TokenClaims(</span>
+        UUID userId,
+        String type,
+        Set&lt;String&gt; roles,
+        Instant expiresAt
+    ) {}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

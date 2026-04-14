@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RateLimitMiddleware.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.middleware</a> &gt; <span class="el_source">RateLimitMiddleware.java</span></div><h1>RateLimitMiddleware.java</h1><pre class="source lang-java linenums">package org.jserver.middleware;
+
+import java.util.concurrent.CompletableFuture;
+import org.jserver.api.JsonRpcError;
+import org.jserver.api.JsonRpcRequest;
+import org.jserver.api.JsonRpcResponse;
+import org.jserver.api.RequestContext;
+import org.jserver.core.RateLimitService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Middleware для ограничения частоты запросов.
+ * Проверяет лимиты по IP-адресу клиента.
+ */
+public class RateLimitMiddleware implements Middleware {
+
+<span class="fc" id="L18">    private static final Logger logger = LoggerFactory.getLogger(RateLimitMiddleware.class);</span>
+    
+    private final RateLimitService rateLimitService;
+
+    /**
+     * Создаёт middleware.
+     *
+     * @param rateLimitService сервис rate limiting
+     */
+<span class="fc" id="L27">    public RateLimitMiddleware(RateLimitService rateLimitService) {</span>
+<span class="fc" id="L28">        this.rateLimitService = rateLimitService;</span>
+<span class="fc" id="L29">        logger.info(&quot;RateLimitMiddleware created&quot;);</span>
+<span class="fc" id="L30">    }</span>
+
+    @Override
+    public CompletableFuture&lt;JsonRpcResponse&gt; process(
+            JsonRpcRequest request, RequestContext ctx, MiddlewareChain chain) {
+        
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (!rateLimitService.tryConsume(ctx.clientIpAddress())) {</span>
+<span class="fc" id="L37">            logger.warn(&quot;Rate limit exceeded for request {} from IP {}&quot;, </span>
+<span class="fc" id="L38">                ctx.requestId(), ctx.clientIpAddress());</span>
+<span class="fc" id="L39">            return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L40">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.rateLimitExceeded(), </span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">                    request != null ? request.id() : null));</span>
+        }
+        
+<span class="fc" id="L44">        return chain.proceed(ctx, request);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

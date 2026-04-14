@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthMiddleware.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.middleware</a> &gt; <span class="el_source">AuthMiddleware.java</span></div><h1>AuthMiddleware.java</h1><pre class="source lang-java linenums">package org.jserver.middleware;
+
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import org.jserver.api.JsonRpcError;
+import org.jserver.api.JsonRpcRequest;
+import org.jserver.api.JsonRpcResponse;
+import org.jserver.api.RequestContext;
+import org.jserver.infrastructure.JwtProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Middleware для проверки JWT-токенов.
+ * Извлекает токен из заголовка Authorization и валидирует.
+ */
+public class AuthMiddleware implements Middleware {
+
+<span class="fc" id="L19">    private static final Logger logger = LoggerFactory.getLogger(AuthMiddleware.class);</span>
+
+    private final JwtProvider jwtProvider;
+<span class="fc" id="L22">    private static final Set&lt;String&gt; PUBLIC_METHODS = Set.of(</span>
+        &quot;system.health&quot;, &quot;system.version&quot;, &quot;system.help&quot;, &quot;auth.login&quot;, &quot;auth.refresh&quot;);
+
+    /**
+     * Создаёт middleware.
+     *
+     * @param jwtProvider провайдер JWT
+     */
+<span class="fc" id="L30">    public AuthMiddleware(JwtProvider jwtProvider) {</span>
+<span class="fc" id="L31">        this.jwtProvider = jwtProvider;</span>
+<span class="fc" id="L32">        logger.info(&quot;AuthMiddleware created&quot;);</span>
+<span class="fc" id="L33">    }</span>
+
+    @Override
+    public CompletableFuture&lt;JsonRpcResponse&gt; process(
+            JsonRpcRequest request, RequestContext ctx, MiddlewareChain chain) {
+
+<span class="pc bpc" id="L39" title="1 of 4 branches missed.">        if (request == null || PUBLIC_METHODS.contains(request.method())) {</span>
+            // Публичные методы не требуют авторизации
+<span class="fc" id="L41">            return chain.proceed(ctx, request);</span>
+        }
+
+        // Временное решение: токен передаётся через параметр _token в request params
+<span class="fc" id="L45">        String authHeader = getAuthHeader(ctx, request);</span>
+<span class="pc bpc" id="L46" title="1 of 4 branches missed.">        if (authHeader == null || !authHeader.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="fc" id="L47">            logger.warn(&quot;Missing or invalid Authorization header for request {}&quot;, ctx.requestId());</span>
+<span class="fc" id="L48">            return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L49">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.unauthorized(), request.id()));</span>
+        }
+
+<span class="fc" id="L52">        String token = authHeader.substring(7);</span>
+<span class="fc" id="L53">        var claims = jwtProvider.validateToken(token);</span>
+
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (claims == null) {</span>
+<span class="nc" id="L56">            logger.warn(&quot;Invalid JWT token for request {}&quot;, ctx.requestId());</span>
+<span class="nc" id="L57">            return CompletableFuture.completedFuture(</span>
+<span class="nc" id="L58">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.unauthorized(), request.id()));</span>
+        }
+
+        // Создаём новый контекст с userId и ролями из токена
+<span class="fc" id="L62">        var authCtx = new RequestContext(</span>
+<span class="fc" id="L63">            ctx.requestId(), ctx.clientIpAddress(),</span>
+<span class="fc" id="L64">            claims.userId(), claims.roles());</span>
+
+<span class="fc" id="L66">        return chain.proceed(authCtx, request);</span>
+    }
+
+    private String getAuthHeader(RequestContext ctx, JsonRpcRequest request) {
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">        if (request != null &amp;&amp; request.params() instanceof java.util.Map&lt;?, ?&gt; params) {</span>
+<span class="fc" id="L71">            Object token = params.get(&quot;_token&quot;);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            return token != null ? &quot;Bearer &quot; + token : null;</span>
+        }
+<span class="fc" id="L74">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

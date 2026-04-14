@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuditRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.infrastructure</a> &gt; <span class="el_source">AuditRepository.java</span></div><h1>AuditRepository.java</h1><pre class="source lang-java linenums">package org.jserver.infrastructure;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import org.jserver.model.AuditEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Репозиторий audit-записей.
+ */
+public class AuditRepository {
+
+<span class="fc" id="L16">    private static final Logger logger = LoggerFactory.getLogger(AuditRepository.class);</span>
+    private final H2DataSource dataSource;
+
+    /**
+     * Создаёт репозиторий.
+     *
+     * @param dataSource источник данных
+     */
+<span class="fc" id="L24">    public AuditRepository(H2DataSource dataSource) {</span>
+<span class="fc" id="L25">        this.dataSource = dataSource;</span>
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * Сохраняет audit-запись.
+     *
+     * @param entry запись для сохранения
+     */
+    public void save(AuditEntry entry) {
+<span class="fc" id="L34">        String sql = &quot;&quot;&quot;</span>
+            INSERT INTO audit_log (id, timestamp, action, user_id, details, ip_address)
+            VALUES (?, ?, ?, ?, ?, ?)
+            &quot;&quot;&quot;;
+<span class="fc" id="L38">        try (Connection conn = dataSource.getConnection();</span>
+<span class="fc" id="L39">             PreparedStatement stmt = conn.prepareStatement(sql)) {</span>
+<span class="fc" id="L40">            stmt.setObject(1, entry.id());</span>
+<span class="fc" id="L41">            stmt.setTimestamp(2, Timestamp.from(entry.timestamp()));</span>
+<span class="fc" id="L42">            stmt.setString(3, entry.action());</span>
+<span class="fc" id="L43">            stmt.setObject(4, entry.userId());</span>
+<span class="fc" id="L44">            stmt.setString(5, entry.details());</span>
+<span class="fc" id="L45">            stmt.setString(6, entry.ipAddress());</span>
+<span class="fc" id="L46">            stmt.executeUpdate();</span>
+<span class="nc" id="L47">        } catch (SQLException e) {</span>
+<span class="nc" id="L48">            logger.error(&quot;Failed to save audit entry&quot;, e);</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">    }</span>
+
+    /**
+     * Возвращает последние audit-записи.
+     *
+     * @param limit максимальное количество записей
+     * @return список записей
+     */
+    public List&lt;AuditEntry&gt; findRecent(int limit) {
+<span class="fc" id="L59">        String sql = &quot;SELECT * FROM audit_log ORDER BY timestamp DESC LIMIT ?&quot;;</span>
+<span class="fc" id="L60">        List&lt;AuditEntry&gt; entries = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L61">        try (Connection conn = dataSource.getConnection();</span>
+<span class="fc" id="L62">             PreparedStatement stmt = conn.prepareStatement(sql)) {</span>
+<span class="fc" id="L63">            stmt.setInt(1, limit);</span>
+<span class="fc" id="L64">            try (ResultSet rs = stmt.executeQuery()) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                while (rs.next()) {</span>
+<span class="fc" id="L66">                    entries.add(mapRow(rs));</span>
+                }
+            }
+<span class="nc" id="L69">        } catch (SQLException e) {</span>
+<span class="nc" id="L70">            logger.error(&quot;Failed to query audit entries&quot;, e);</span>
+<span class="fc" id="L71">        }</span>
+<span class="fc" id="L72">        return entries;</span>
+    }
+
+    private AuditEntry mapRow(ResultSet rs) throws SQLException {
+<span class="fc" id="L76">        return new AuditEntry(</span>
+<span class="fc" id="L77">            rs.getObject(&quot;id&quot;, UUID.class),</span>
+<span class="fc" id="L78">            rs.getTimestamp(&quot;timestamp&quot;).toInstant(),</span>
+<span class="fc" id="L79">            rs.getString(&quot;action&quot;),</span>
+<span class="fc" id="L80">            rs.getObject(&quot;user_id&quot;, UUID.class),</span>
+<span class="fc" id="L81">            rs.getString(&quot;details&quot;),</span>
+<span class="fc" id="L82">            rs.getString(&quot;ip_address&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

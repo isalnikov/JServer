@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>H2DataSource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.infrastructure</a> &gt; <span class="el_source">H2DataSource.java</span></div><h1>H2DataSource.java</h1><pre class="source lang-java linenums">package org.jserver.infrastructure;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.sql.DataSource;
+import org.h2.jdbcx.JdbcDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Источник данных H2.
+ * Создаёт подключение и инициализирует схему БД.
+ */
+public class H2DataSource {
+
+<span class="fc" id="L17">    private static final Logger logger = LoggerFactory.getLogger(H2DataSource.class);</span>
+
+    private final JdbcDataSource dataSource;
+    private final ServerConfig config;
+
+    /**
+     * Создаёт источник данных.
+     *
+     * @param config конфигурация сервера
+     */
+<span class="fc" id="L27">    public H2DataSource(ServerConfig config) {</span>
+<span class="fc" id="L28">        this.config = config;</span>
+<span class="fc" id="L29">        this.dataSource = createDataSource();</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Инициализирует схему БД.
+     * Создаёт все необходимые таблицы.
+     */
+    public void initialize() {
+<span class="fc" id="L37">        logger.info(&quot;Initializing database schema&quot;);</span>
+<span class="fc" id="L38">        try (Connection conn = getConnection();</span>
+<span class="fc" id="L39">             Statement stmt = conn.createStatement()) {</span>
+
+<span class="fc" id="L41">            stmt.execute(&quot;&quot;&quot;</span>
+                CREATE TABLE IF NOT EXISTS users (
+                    id UUID PRIMARY KEY,
+                    username VARCHAR(255) UNIQUE NOT NULL,
+                    password_hash VARCHAR(255) NOT NULL,
+                    roles VARCHAR(500) NOT NULL,
+                    created_at TIMESTAMP NOT NULL,
+                    updated_at TIMESTAMP NOT NULL
+                )
+                &quot;&quot;&quot;);
+
+<span class="fc" id="L52">            stmt.execute(&quot;&quot;&quot;</span>
+                CREATE TABLE IF NOT EXISTS audit_log (
+                    id UUID PRIMARY KEY,
+                    timestamp TIMESTAMP NOT NULL,
+                    action VARCHAR(255) NOT NULL,
+                    user_id UUID,
+                    details TEXT,
+                    ip_address VARCHAR(45)
+                )
+                &quot;&quot;&quot;);
+
+<span class="fc" id="L63">            stmt.execute(&quot;&quot;&quot;</span>
+                CREATE TABLE IF NOT EXISTS rate_limit_config (
+                    method_name VARCHAR(255) PRIMARY KEY,
+                    capacity INT NOT NULL,
+                    refill_rate INT NOT NULL
+                )
+                &quot;&quot;&quot;);
+
+<span class="fc" id="L71">            stmt.execute(&quot;&quot;&quot;</span>
+                CREATE TABLE IF NOT EXISTS refresh_tokens (
+                    token_hash VARCHAR(64) PRIMARY KEY,
+                    user_id UUID NOT NULL,
+                    expires_at TIMESTAMP NOT NULL
+                )
+                &quot;&quot;&quot;);
+
+            // Создаём пользователя admin по умолчанию
+<span class="fc" id="L80">            stmt.execute(&quot;&quot;&quot;</span>
+                MERGE INTO users (id, username, password_hash, roles, created_at, updated_at)
+                KEY (username) VALUES (
+                    RANDOM_UUID(), 'admin',
+                    '$2a$10$dummyHashForDevelopmentOnly',
+                    'admin', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
+                )
+                &quot;&quot;&quot;);
+
+<span class="fc" id="L89">            logger.info(&quot;Database schema initialized&quot;);</span>
+
+<span class="nc" id="L91">        } catch (SQLException e) {</span>
+<span class="nc" id="L92">            logger.error(&quot;Failed to initialize database schema&quot;, e);</span>
+<span class="nc" id="L93">            throw new RuntimeException(&quot;Database initialization failed&quot;, e);</span>
+<span class="fc" id="L94">        }</span>
+<span class="fc" id="L95">    }</span>
+
+    /**
+     * Получает подключение к БД.
+     *
+     * @return подключение
+     * @throws SQLException ошибка подключения
+     */
+    public Connection getConnection() throws SQLException {
+<span class="fc" id="L104">        return dataSource.getConnection();</span>
+    }
+
+    /**
+     * Возвращает DataSource для использования в репозиториях.
+     *
+     * @return DataSource
+     */
+    public DataSource getDataSource() {
+<span class="nc" id="L113">        return dataSource;</span>
+    }
+
+    private JdbcDataSource createDataSource() {
+<span class="fc" id="L117">        var ds = new JdbcDataSource();</span>
+<span class="fc" id="L118">        ds.setURL(config.databaseUrl());</span>
+<span class="fc" id="L119">        ds.setUser(config.databaseUser());</span>
+<span class="fc" id="L120">        ds.setPassword(config.databasePassword());</span>
+<span class="fc" id="L121">        logger.info(&quot;H2 DataSource created: {}&quot;, config.databaseUrl());</span>
+<span class="fc" id="L122">        return ds;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

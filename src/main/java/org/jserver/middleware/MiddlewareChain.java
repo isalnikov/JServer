@@ -48,6 +48,8 @@ public class MiddlewareChain {
             index++;
             return current.process(request, ctx, this);
         } else {
+            // Reset index so the chain can be reused for the next request
+            index = 0;
             return finalHandler.handle(request, ctx);
         }
     }

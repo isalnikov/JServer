@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.handlers</a> &gt; <span class="el_source">AuthHandler.java</span></div><h1>AuthHandler.java</h1><pre class="source lang-java linenums">package org.jserver.handlers;
+
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import org.jserver.api.JsonRpcError;
+import org.jserver.api.JsonRpcResponse;
+import org.jserver.api.JsonRpcRequest;
+import org.jserver.api.RequestContext;
+import org.jserver.api.RpcMethodHandler;
+import org.jserver.core.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Обработчик методов auth.login, auth.refresh, auth.logout.
+ */
+public class AuthHandler implements RpcMethodHandler {
+
+<span class="fc" id="L19">    private static final Logger logger = LoggerFactory.getLogger(AuthHandler.class);</span>
+    private final AuthService authService;
+
+    /**
+     * Создаёт обработчик.
+     *
+     * @param authService сервис аутентификации
+     */
+<span class="fc" id="L27">    public AuthHandler(AuthService authService) {</span>
+<span class="fc" id="L28">        this.authService = authService;</span>
+<span class="fc" id="L29">    }</span>
+
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public CompletableFuture&lt;JsonRpcResponse&gt; handle(JsonRpcRequest request, RequestContext ctx) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        var params = request.params() != null ?</span>
+<span class="fc" id="L35">            (Map&lt;String, Object&gt;) request.params() : Map.&lt;String, Object&gt;of();</span>
+
+<span class="pc bpc" id="L37" title="1 of 4 branches missed.">        return switch (request.method()) {</span>
+<span class="fc" id="L38">            case &quot;auth.login&quot; -&gt; handleLogin(params, request);</span>
+<span class="fc" id="L39">            case &quot;auth.refresh&quot; -&gt; handleRefresh(params, request);</span>
+<span class="fc" id="L40">            case &quot;auth.logout&quot; -&gt; handleLogout(ctx, request);</span>
+<span class="nc" id="L41">            default -&gt; CompletableFuture.completedFuture(</span>
+<span class="nc" id="L42">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.methodNotFound(request.method()), request.id()));</span>
+        };
+    }
+
+    private CompletableFuture&lt;JsonRpcResponse&gt; handleLogin(
+            Map&lt;String, Object&gt; params, JsonRpcRequest request) {
+<span class="fc" id="L48">        String username = (String) params.get(&quot;username&quot;);</span>
+<span class="fc" id="L49">        String password = (String) params.get(&quot;password&quot;);</span>
+
+<span class="pc bpc" id="L51" title="1 of 4 branches missed.">        if (username == null || password == null) {</span>
+<span class="fc" id="L52">            return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L53">                JsonRpcResponse.error(&quot;2.0&quot;,</span>
+<span class="fc" id="L54">                    JsonRpcError.invalidParams(&quot;username and password required&quot;), request.id()));</span>
+        }
+
+<span class="fc" id="L57">        var result = authService.login(username, password);</span>
+<span class="fc" id="L58">        return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L59">            JsonRpcResponse.success(&quot;2.0&quot;, result.toMap(), request.id()));</span>
+    }
+
+    private CompletableFuture&lt;JsonRpcResponse&gt; handleRefresh(
+            Map&lt;String, Object&gt; params, JsonRpcRequest request) {
+<span class="fc" id="L64">        String refreshToken = (String) params.get(&quot;refreshToken&quot;);</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (refreshToken == null) {</span>
+<span class="nc" id="L66">            return CompletableFuture.completedFuture(</span>
+<span class="nc" id="L67">                JsonRpcResponse.error(&quot;2.0&quot;,</span>
+<span class="nc" id="L68">                    JsonRpcError.invalidParams(&quot;refreshToken required&quot;), request.id()));</span>
+        }
+
+<span class="fc" id="L71">        var result = authService.refresh(refreshToken);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (result == null) {</span>
+<span class="nc" id="L73">            return CompletableFuture.completedFuture(</span>
+<span class="nc" id="L74">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.unauthorized(), request.id()));</span>
+        }
+<span class="fc" id="L76">        return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L77">            JsonRpcResponse.success(&quot;2.0&quot;, result.toMap(), request.id()));</span>
+    }
+
+    private CompletableFuture&lt;JsonRpcResponse&gt; handleLogout(
+            RequestContext ctx, JsonRpcRequest request) {
+        // В реальной реализации токен извлекается из заголовка
+<span class="fc" id="L83">        authService.logout(&quot;token&quot;);</span>
+<span class="fc" id="L84">        return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L85">            JsonRpcResponse.success(&quot;2.0&quot;, Map.of(&quot;status&quot;, &quot;logged out&quot;), request.id()));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

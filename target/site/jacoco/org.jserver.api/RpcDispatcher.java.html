@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RpcDispatcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JServer</a> &gt; <a href="index.source.html" class="el_package">org.jserver.api</a> &gt; <span class="el_source">RpcDispatcher.java</span></div><h1>RpcDispatcher.java</h1><pre class="source lang-java linenums">package org.jserver.api;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import org.jserver.middleware.MiddlewareChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Диспетчер JSON-RPC методов.
+ * Маршрутизирует запрос к зарегистрированным обработчикам.
+ */
+<span class="fc" id="L15">public class RpcDispatcher {</span>
+
+<span class="fc" id="L17">    private static final Logger logger = LoggerFactory.getLogger(RpcDispatcher.class);</span>
+<span class="fc" id="L18">    private final Map&lt;String, RpcMethodHandler&gt; handlers = new ConcurrentHashMap&lt;&gt;();</span>
+
+    /**
+     * Регистрирует обработчик для метода.
+     *
+     * @param method имя метода
+     * @param handler обработчик
+     */
+    public void register(String method, RpcMethodHandler handler) {
+<span class="fc" id="L27">        handlers.put(method, handler);</span>
+<span class="fc" id="L28">        logger.info(&quot;Registered handler for method: {}&quot;, method);</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Диспетчеризует запрос к обработчику.
+     *
+     * @param request JSON-RPC запрос
+     * @param ctx контекст
+     * @return CompletableFuture с ответом
+     */
+    public CompletableFuture&lt;JsonRpcResponse&gt; dispatch(JsonRpcRequest request, RequestContext ctx) {
+<span class="fc" id="L39">        RpcMethodHandler handler = handlers.get(request.method());</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (handler == null) {</span>
+<span class="fc" id="L41">            logger.warn(&quot;Method not found: {}&quot;, request.method());</span>
+<span class="fc" id="L42">            return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L43">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.methodNotFound(request.method()), request.id()));</span>
+        }
+
+        try {
+<span class="fc" id="L47">            return handler.handle(request, ctx);</span>
+<span class="nc" id="L48">        } catch (Exception e) {</span>
+<span class="nc" id="L49">            logger.error(&quot;Handler failed for method: {}&quot;, request.method(), e);</span>
+<span class="nc" id="L50">            return CompletableFuture.completedFuture(</span>
+<span class="nc" id="L51">                JsonRpcResponse.error(&quot;2.0&quot;, JsonRpcError.internalError(e.getMessage()), request.id()));</span>
+        }
+    }
+
+    /**
+     * Возвращает список зарегистрированных методов.
+     *
+     * @return неизменяемый сет методов
+     */
+    public Set&lt;String&gt; getRegisteredMethods() {
+<span class="fc" id="L61">        return Set.copyOf(handlers.keySet());</span>
+    }
+
+    /**
+     * Создаёт обработчик для диспетчеризации (адаптер для MiddlewareChain.RpcHandler).
+     *
+     * @return адаптер для цепочки middleware
+     */
+    public MiddlewareChain.RpcHandler asChainHandler() {
+<span class="fc" id="L70">        return (request, ctx) -&gt; dispatch(request, ctx);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
