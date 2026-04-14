@@ -89,6 +89,7 @@ public class HttpServerBootstrap {
         server.createContext("/rpc", rpcHandler);
         server.createContext("/health", rpcHandler);
         server.createContext("/version", rpcHandler);
+        server.createContext("/help", rpcHandler);
         server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
         server.start();
 
