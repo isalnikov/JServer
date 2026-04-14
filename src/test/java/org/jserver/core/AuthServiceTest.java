@@ -1,7 +1,10 @@
 package org.jserver.core;
 
 import org.jserver.infrastructure.AuditRepository;
+import org.jserver.infrastructure.H2DataSource;
 import org.jserver.infrastructure.JwtProvider;
+import org.jserver.infrastructure.ServerConfig;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.Duration;
@@ -16,13 +19,31 @@ class AuthServiceTest {
 
     private AuthService authService;
     private JwtProvider jwtProvider;
+    private H2DataSource dataSource;
 
     @BeforeEach
     void setUp() {
         jwtProvider = new JwtProvider("test-secret-key-at-least-256-bits-long!!!",
             Duration.ofMinutes(15), Duration.ofDays(7));
-        var auditService = new AuditService(new AuditRepository(null));
+        var config = new ServerConfig(8080, "0.0.0.0",
+            "jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1", "sa", "",
+            "test-secret",
+            Duration.ofMinutes(15), Duration.ofDays(7),
+            true, 100, 100);
+        dataSource = new H2DataSource(config);
+        dataSource.initialize();
+        var auditRepository = new AuditRepository(dataSource);
+        var auditService = new AuditService(auditRepository);
         authService = new AuthService(jwtProvider, auditService, null);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        if (dataSource != null) {
+            try (var conn = dataSource.getConnection()) {
+                conn.createStatement().execute("SHUTDOWN");
+            }
+        }
     }
 
     @Test
