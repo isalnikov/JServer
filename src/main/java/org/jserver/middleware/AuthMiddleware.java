@@ -41,9 +41,8 @@ public class AuthMiddleware implements Middleware {
             return chain.proceed(ctx, request);
         }
 
-        // TODO: извлечь токен из HTTP заголовка Authorization
-        // Пока — заглушка, требующая токена
-        String authHeader = getAuthHeader(ctx);
+        // Временное решение: токен передаётся через параметр _token в request params
+        String authHeader = getAuthHeader(ctx, request);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             logger.warn("Missing or invalid Authorization header for request {}", ctx.requestId());
             return CompletableFuture.completedFuture(
@@ -67,9 +66,11 @@ public class AuthMiddleware implements Middleware {
         return chain.proceed(authCtx, request);
     }
 
-    private String getAuthHeader(RequestContext ctx) {
-        // В реальной реализации извлекается из HTTP заголовка
-        // Здесь — заглушка
+    private String getAuthHeader(RequestContext ctx, JsonRpcRequest request) {
+        if (request != null && request.params() instanceof java.util.Map<?, ?> params) {
+            Object token = params.get("_token");
+            return token != null ? "Bearer " + token : null;
+        }
         return null;
     }
 }

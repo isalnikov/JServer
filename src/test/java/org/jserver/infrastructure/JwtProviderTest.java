@@ -54,4 +54,17 @@ class JwtProviderTest {
 
         assertNotEquals(token1, token2);
     }
+
+    @Test
+    void hashTokenProducesSha256Hash() {
+        String hash = provider.hashToken("some-token");
+        assertNotNull(hash);
+        // SHA-256 produces 32 bytes, base64 encoded = 44 chars
+        assertTrue(hash.length() > 30);
+    }
+
+    @Test
+    void accessTokenTtlReturnsCorrectDuration() {
+        assertEquals(Duration.ofMinutes(15), provider.accessTokenTtl());
+    }
 }

@@ -56,4 +56,14 @@ class AuthServiceTest {
         var result = authService.refresh("invalid-token");
         assertNull(result);
     }
+
+    @Test
+    void loginResultToMapContainsAllFields() {
+        var result = authService.login("admin", "password");
+        var map = result.toMap();
+
+        assertTrue(map.containsKey("accessToken"));
+        assertTrue(map.containsKey("refreshToken"));
+        assertTrue(map.containsKey("expiresAt"));
+    }
 }

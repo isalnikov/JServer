@@ -45,17 +45,24 @@ class AuthMiddlewareTest {
     @Test
     void allowsPrivateMethodsWithValidToken() {
         String token = jwtProvider.generateAccessToken(userId, Set.of("user"));
+        var ctx = new RequestContext("127.0.0.1", "127.0.0.1", userId, Set.of("user"));
+        var request = new JsonRpcRequest("2.0", "auth.logout",
+            java.util.Map.of("_token", token), 1);
+
+        var chain = new TestMiddlewareChain();
+        var response = middleware.process(request, ctx, chain);
+
+        assertTrue(chain.wasCalled());
+    }
+
+    @Test
+    void blocksPrivateMethodsWithoutTokenActually() {
         var ctx = RequestContext.anonymous("127.0.0.1", null, Set.of("anonymous"));
-        // В реальной реализации токен передаётся через заголовок
-        // Здесь — заглушка, AuthMiddleware пока не извлекает токен
         var request = new JsonRpcRequest("2.0", "auth.logout", null, 1);
 
         var chain = new TestMiddlewareChain();
-        // Пока AuthMiddleware не извлекает токен из заголовка,
-        // он должен пропустить публичные методы и отклонить приватные
         var response = middleware.process(request, ctx, chain);
 
-        // auth.logout — НЕ публичный метод, но токена нет → unauthorized
         assertEquals(JsonRpcError.UNAUTHORIZED, response.join().error().code());
         assertFalse(chain.wasCalled());
     }
