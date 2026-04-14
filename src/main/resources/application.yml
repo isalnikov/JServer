@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  host: 0.0.0.0
+
+database:
+  url: jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1
+  user: sa
+  password:
+
+jwt:
+  secret: ${JWT_SECRET:change-me-in-production-min-256-bits}
+  access-token-ttl: 15m
+  refresh-token-ttl: 7d
+
+ratelimit:
+  enabled: true
+  default:
+    capacity: 100
+    refill-rate: 100
+
+logging:
+  level: INFO
+  file: logs/jserver.log
+  file-max-size: 10MB
+  file-max-history: 7d
