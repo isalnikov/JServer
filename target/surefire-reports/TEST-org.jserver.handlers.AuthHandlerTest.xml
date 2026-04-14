@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="org.jserver.handlers.AuthHandlerTest" time="0.042" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="org.jserver.handlers.AuthHandlerTest" time="0.032" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -10,10 +10,10 @@
     <property name="user.timezone" value="Europe/Moscow"/>
     <property name="os.name" value="Linux"/>
     <property name="java.vm.specification.version" value="25"/>
-    <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-25-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414134703925_3.jar /home/igor/qwencode/JServer/target/surefire 2026-04-14T13-47-03_825-jvmRun1 surefire-20260414134703925_1tmp surefire_0-20260414134703925_2tmp"/>
+    <property name="sun.java.command" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414140307650_3.jar /home/igor/qwencode/JServer/target/surefire 2026-04-14T14-03-07_552-jvmRun1 surefire-20260414140307650_1tmp surefire_0-20260414140307650_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/igor/qwencode/JServer/target/test-classes:/home/igor/qwencode/JServer/target/classes:/home/igor/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar:/home/igor/.m2/repository/ch/qos/logback/logback-classic/1.5.12/logback-classic-1.5.12.jar:/home/igor/.m2/repository/ch/qos/logback/logback-core/1.5.12/logback-core-1.5.12.jar:/home/igor/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/home/igor/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.2/jackson-databind-2.18.2.jar:/home/igor/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.2/jackson-annotations-2.18.2.jar:/home/igor/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.2/jackson-core-2.18.2.jar:/home/igor/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.0/junit-jupiter-5.11.0.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.0/junit-jupiter-api-5.11.0.jar:/home/igor/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/igor/.m2/repository/org/junit/platform/junit-platform-commons/1.11.0/junit-platform-commons-1.11.0.jar:/home/igor/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.0/junit-jupiter-params-5.11.0.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.0/junit-jupiter-engine-5.11.0.jar:/home/igor/.m2/repository/org/junit/platform/junit-platform-engine/1.11.0/junit-platform-engine-1.11.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414134703925_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414140307650_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.2+10-Ubuntu-124.04"/>
     <property name="user.name" value="igor"/>
@@ -38,6 +38,7 @@
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="maven.ext.class.path" value="/snap/netbeans/142/netbeans/java/maven-nblib/netbeans-eventspy.jar"/>
     <property name="localRepository" value="/home/igor/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-25"/>
     <property name="java.io.tmpdir" value="/tmp"/>
@@ -55,44 +56,44 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="handlesAuthLogout" classname="org.jserver.handlers.AuthHandlerTest" time="0.011">
-    <system-out><![CDATA[2026-04-14 13:47:06.899 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
-2026-04-14 13:47:06.899 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
-2026-04-14 13:47:06.899 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:47:06.904 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:47:06.905 [main] INFO  org.jserver.core.AuditService - AuditService created
-2026-04-14 13:47:06.906 [main] INFO  org.jserver.core.AuthService - AuthService created
+  <testcase name="handlesAuthLogout" classname="org.jserver.handlers.AuthHandlerTest" time="0.007">
+    <system-out><![CDATA[2026-04-14 14:03:12.365 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 14:03:12.366 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 14:03:12.366 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 14:03:12.370 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 14:03:12.371 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 14:03:12.371 [main] INFO  org.jserver.core.AuthService - AuthService created
 ]]></system-out>
   </testcase>
-  <testcase name="handlesAuthRefresh" classname="org.jserver.handlers.AuthHandlerTest" time="0.009">
-    <system-out><![CDATA[2026-04-14 13:47:06.910 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
-2026-04-14 13:47:06.910 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
-2026-04-14 13:47:06.910 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:47:06.914 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:47:06.914 [main] INFO  org.jserver.core.AuditService - AuditService created
-2026-04-14 13:47:06.914 [main] INFO  org.jserver.core.AuthService - AuthService created
-2026-04-14 13:47:06.915 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
-2026-04-14 13:47:06.916 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+  <testcase name="handlesAuthRefresh" classname="org.jserver.handlers.AuthHandlerTest" time="0.007">
+    <system-out><![CDATA[2026-04-14 14:03:12.373 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 14:03:12.373 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 14:03:12.373 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 14:03:12.377 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 14:03:12.377 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 14:03:12.377 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 14:03:12.378 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 14:03:12.379 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
 ]]></system-out>
   </testcase>
-  <testcase name="handlesAuthLoginWithMissingParams" classname="org.jserver.handlers.AuthHandlerTest" time="0.007">
-    <system-out><![CDATA[2026-04-14 13:47:06.919 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
-2026-04-14 13:47:06.919 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
-2026-04-14 13:47:06.919 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:47:06.924 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:47:06.924 [main] INFO  org.jserver.core.AuditService - AuditService created
-2026-04-14 13:47:06.924 [main] INFO  org.jserver.core.AuthService - AuthService created
+  <testcase name="handlesAuthLoginWithMissingParams" classname="org.jserver.handlers.AuthHandlerTest" time="0.006">
+    <system-out><![CDATA[2026-04-14 14:03:12.381 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 14:03:12.382 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 14:03:12.382 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 14:03:12.386 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 14:03:12.386 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 14:03:12.386 [main] INFO  org.jserver.core.AuthService - AuthService created
 ]]></system-out>
   </testcase>
-  <testcase name="handlesAuthLogin" classname="org.jserver.handlers.AuthHandlerTest" time="0.014">
-    <system-out><![CDATA[2026-04-14 13:47:06.926 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
-2026-04-14 13:47:06.927 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
-2026-04-14 13:47:06.927 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:47:06.936 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:47:06.936 [main] INFO  org.jserver.core.AuditService - AuditService created
-2026-04-14 13:47:06.936 [main] INFO  org.jserver.core.AuthService - AuthService created
-2026-04-14 13:47:06.937 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
-2026-04-14 13:47:06.939 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+  <testcase name="handlesAuthLogin" classname="org.jserver.handlers.AuthHandlerTest" time="0.008">
+    <system-out><![CDATA[2026-04-14 14:03:12.388 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 14:03:12.389 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 14:03:12.389 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 14:03:12.393 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 14:03:12.394 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 14:03:12.394 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 14:03:12.394 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 14:03:12.395 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
 ]]></system-out>
   </testcase>
 </testsuite>
