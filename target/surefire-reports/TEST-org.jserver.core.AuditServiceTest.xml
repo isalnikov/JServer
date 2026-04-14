@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="org.jserver.core.AuditServiceTest" time="0.593" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="org.jserver.core.AuditServiceTest" time="0.631" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-25-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414134210026_3.jar /home/igor/qwencode/JServer/target/surefire 2026-04-14T13-42-09_948-jvmRun1 surefire-20260414134210026_1tmp surefire_0-20260414134210026_2tmp"/>
+    <property name="sun.java.command" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414134703925_3.jar /home/igor/qwencode/JServer/target/surefire 2026-04-14T13-47-03_825-jvmRun1 surefire-20260414134703925_1tmp surefire_0-20260414134703925_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/igor/qwencode/JServer/target/test-classes:/home/igor/qwencode/JServer/target/classes:/home/igor/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar:/home/igor/.m2/repository/ch/qos/logback/logback-classic/1.5.12/logback-classic-1.5.12.jar:/home/igor/.m2/repository/ch/qos/logback/logback-core/1.5.12/logback-core-1.5.12.jar:/home/igor/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/home/igor/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.2/jackson-databind-2.18.2.jar:/home/igor/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.2/jackson-annotations-2.18.2.jar:/home/igor/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.2/jackson-core-2.18.2.jar:/home/igor/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.0/junit-jupiter-5.11.0.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.0/junit-jupiter-api-5.11.0.jar:/home/igor/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/igor/.m2/repository/org/junit/platform/junit-platform-commons/1.11.0/junit-platform-commons-1.11.0.jar:/home/igor/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.0/junit-jupiter-params-5.11.0.jar:/home/igor/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.0/junit-jupiter-engine-5.11.0.jar:/home/igor/.m2/repository/org/junit/platform/junit-platform-engine/1.11.0/junit-platform-engine-1.11.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414134210026_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/igor/qwencode/JServer/target/surefire/surefirebooter-20260414134703925_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.2+10-Ubuntu-124.04"/>
     <property name="user.name" value="igor"/>
@@ -55,39 +55,39 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="logsAnonymousAction" classname="org.jserver.core.AuditServiceTest" time="0.493">
-    <system-out><![CDATA[2026-04-14 13:42:11.425 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsAnonymousAction__;DB_CLOSE_DELAY=-1
-2026-04-14 13:42:11.426 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:42:11.836 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:42:11.837 [main] INFO  org.jserver.core.AuditService - AuditService created
+  <testcase name="logsAnonymousAction" classname="org.jserver.core.AuditServiceTest" time="0.533">
+    <system-out><![CDATA[2026-04-14 13:47:05.647 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsAnonymousAction__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:05.647 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.080 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.081 [main] INFO  org.jserver.core.AuditService - AuditService created
 ]]></system-out>
   </testcase>
-  <testcase name="logsActionAndRetrievesIt" classname="org.jserver.core.AuditServiceTest" time="0.015">
-    <system-out><![CDATA[2026-04-14 13:42:11.877 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsActionAndRetrievesIt__;DB_CLOSE_DELAY=-1
-2026-04-14 13:42:11.877 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:42:11.885 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:42:11.885 [main] INFO  org.jserver.core.AuditService - AuditService created
+  <testcase name="logsActionAndRetrievesIt" classname="org.jserver.core.AuditServiceTest" time="0.011">
+    <system-out><![CDATA[2026-04-14 13:47:06.117 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsActionAndRetrievesIt__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.117 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.124 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.124 [main] INFO  org.jserver.core.AuditService - AuditService created
 ]]></system-out>
   </testcase>
-  <testcase name="returnsEmptyListWhenNoEntries" classname="org.jserver.core.AuditServiceTest" time="0.011">
-    <system-out><![CDATA[2026-04-14 13:42:11.893 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_returnsEmptyListWhenNoEntries__;DB_CLOSE_DELAY=-1
-2026-04-14 13:42:11.893 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:42:11.900 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:42:11.901 [main] INFO  org.jserver.core.AuditService - AuditService created
+  <testcase name="returnsEmptyListWhenNoEntries" classname="org.jserver.core.AuditServiceTest" time="0.013">
+    <system-out><![CDATA[2026-04-14 13:47:06.128 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_returnsEmptyListWhenNoEntries__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.128 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.138 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.138 [main] INFO  org.jserver.core.AuditService - AuditService created
 ]]></system-out>
   </testcase>
-  <testcase name="respectsLimitOnRecentEntries" classname="org.jserver.core.AuditServiceTest" time="0.049">
-    <system-out><![CDATA[2026-04-14 13:42:11.905 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_respectsLimitOnRecentEntries__;DB_CLOSE_DELAY=-1
-2026-04-14 13:42:11.905 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:42:11.918 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:42:11.918 [main] INFO  org.jserver.core.AuditService - AuditService created
+  <testcase name="respectsLimitOnRecentEntries" classname="org.jserver.core.AuditServiceTest" time="0.045">
+    <system-out><![CDATA[2026-04-14 13:47:06.141 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_respectsLimitOnRecentEntries__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.142 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.149 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.149 [main] INFO  org.jserver.core.AuditService - AuditService created
 ]]></system-out>
   </testcase>
-  <testcase name="logsMultipleActionsAndRetrievesRecent" classname="org.jserver.core.AuditServiceTest" time="0.021">
-    <system-out><![CDATA[2026-04-14 13:42:11.954 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsMultipleActionsAndRetrievesRecent__;DB_CLOSE_DELAY=-1
-2026-04-14 13:42:11.954 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
-2026-04-14 13:42:11.959 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
-2026-04-14 13:42:11.959 [main] INFO  org.jserver.core.AuditService - AuditService created
+  <testcase name="logsMultipleActionsAndRetrievesRecent" classname="org.jserver.core.AuditServiceTest" time="0.027">
+    <system-out><![CDATA[2026-04-14 13:47:06.187 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsMultipleActionsAndRetrievesRecent__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.187 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.198 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.199 [main] INFO  org.jserver.core.AuditService - AuditService created
 ]]></system-out>
   </testcase>
 </testsuite>

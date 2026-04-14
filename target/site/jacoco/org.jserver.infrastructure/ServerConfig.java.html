@@ -87,10 +87,10 @@ import org.yaml.snakeyaml.Yaml;
      * @return конфигурация по умолчанию
      */
     public static ServerConfig defaults() {
-<span class="nc" id="L90">        return new ServerConfig(8080, &quot;0.0.0.0&quot;,</span>
+<span class="fc" id="L90">        return new ServerConfig(8080, &quot;0.0.0.0&quot;,</span>
             &quot;jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1&quot;, &quot;sa&quot;, &quot;&quot;,
             &quot;change-me-in-production-min-256-bits&quot;,
-<span class="nc" id="L93">            Duration.ofMinutes(15), Duration.ofDays(7),</span>
+<span class="fc" id="L93">            Duration.ofMinutes(15), Duration.ofDays(7),</span>
             true, 100, 100);
     }
 

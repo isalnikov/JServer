@@ -10,6 +10,7 @@
 /home/igor/qwencode/JServer/src/test/java/org/jserver/core/RateLimitServiceTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/handlers/AuthHandlerTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/handlers/HealthHandlerTest.java
+/home/igor/qwencode/JServer/src/test/java/org/jserver/handlers/SystemHelpHandlerTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/infrastructure/ConfigRepositoryTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/infrastructure/H2DataSourceTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/infrastructure/JwtProviderTest.java
@@ -22,4 +23,5 @@
 /home/igor/qwencode/JServer/src/test/java/org/jserver/model/AuditEntryTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/model/RefreshTokenTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/model/UserTest.java
+/home/igor/qwencode/JServer/src/test/java/org/jserver/server/HttpServerBootstrapTest.java
 /home/igor/qwencode/JServer/src/test/java/org/jserver/server/RpcHttpHandlerTest.java

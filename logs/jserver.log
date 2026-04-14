@@ -2382,3 +2382,409 @@ KEY (id) VALUES (?, ?, ?, ?, ?, ?) [23505-232]
 2026-04-14 13:42:12.959 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
 2026-04-14 13:42:12.961 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
 2026-04-14 13:42:12.962 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:15.602 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=100, refillRate=100/min
+2026-04-14 13:44:15.606 [main] INFO  o.j.middleware.RateLimitMiddleware - RateLimitMiddleware created
+2026-04-14 13:44:15.610 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=1, refillRate=1/min
+2026-04-14 13:44:15.610 [main] INFO  o.j.middleware.RateLimitMiddleware - RateLimitMiddleware created
+2026-04-14 13:44:15.611 [main] WARN  org.jserver.core.RateLimitService - Rate limit exceeded for IP: 127.0.0.1
+2026-04-14 13:44:15.611 [main] WARN  o.j.middleware.RateLimitMiddleware - Rate limit exceeded for request 0a6c1b7a-5d9a-4952-b652-88f8bf217926 from IP 127.0.0.1
+2026-04-14 13:44:15.625 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:15.626 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:44:15.627 [main] WARN  o.jserver.middleware.AuthMiddleware - Missing or invalid Authorization header for request 63996d39-e656-4796-8a15-48af5148e8a8
+2026-04-14 13:44:15.629 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:15.629 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:44:15.657 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:15.658 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:44:15.658 [main] WARN  o.jserver.middleware.AuthMiddleware - Missing or invalid Authorization header for request 3efee67e-490d-4e7b-be54-692bf4bd0e03
+2026-04-14 13:44:15.660 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:15.660 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:44:15.667 [main] INFO  o.j.middleware.LoggingMiddleware - Request [test-req-2] method=test ip=127.0.0.1
+2026-04-14 13:44:15.720 [main] INFO  o.j.middleware.LoggingMiddleware - Response [test-req-2] method=test status=success duration=52ms
+2026-04-14 13:44:15.728 [main] INFO  o.j.middleware.LoggingMiddleware - Request [test-req-1] method=system.health ip=127.0.0.1
+2026-04-14 13:44:15.728 [main] INFO  o.j.middleware.LoggingMiddleware - Response [test-req-1] method=system.health status=success duration=0ms
+2026-04-14 13:44:15.731 [main] INFO  o.j.middleware.LoggingMiddleware - Request [test-req-3] method=auth.login ip=10.0.0.1
+2026-04-14 13:44:15.732 [main] INFO  o.j.middleware.LoggingMiddleware - Response [test-req-3] method=auth.login status=error duration=0ms
+2026-04-14 13:44:15.738 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:44:15.745 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:44:15.746 [main] WARN  org.jserver.core.RateLimitService - Rate limit exceeded for IP: test-ip
+2026-04-14 13:44:15.748 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:44:15.751 [main] WARN  org.jserver.core.RateLimitService - Rate limit exceeded for IP: test-ip
+2026-04-14 13:44:15.755 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:44:15.869 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsAnonymousAction__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:15.871 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.479 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.480 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.503 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=system.health userId=null
+2026-04-14 13:44:16.541 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsActionAndRetrievesIt__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.541 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.555 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.555 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.556 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=82011000-97d7-4a54-9e45-d4f80f7ef5d3
+2026-04-14 13:44:16.560 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_returnsEmptyListWhenNoEntries__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.560 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.568 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.568 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.574 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_respectsLimitOnRecentEntries__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.574 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.582 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.583 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.587 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.0 userId=725f30e6-f7ee-48cb-ae40-d56ec895a0c1
+2026-04-14 13:44:16.593 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.1 userId=bf6b282d-8b38-49d9-9850-cb5e13fc4504
+2026-04-14 13:44:16.600 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.2 userId=47cc4f7d-18f1-45bf-b832-8d70278f1255
+2026-04-14 13:44:16.607 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.3 userId=2296337c-127a-4d07-b7ec-2546759e65ef
+2026-04-14 13:44:16.614 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.4 userId=1a7cd9de-9935-4441-9416-0429ab9e081a
+2026-04-14 13:44:16.624 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsMultipleActionsAndRetrievesRecent__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.624 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.639 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.640 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.642 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=443b749d-a9a2-470f-9268-026a8c0279c5
+2026-04-14 13:44:16.655 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=data.query userId=443b749d-a9a2-470f-9268-026a8c0279c5
+2026-04-14 13:44:16.664 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:16.664 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.664 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.676 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.676 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.676 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:16.677 [main] WARN  org.jserver.core.AuthService - Invalid refresh token
+2026-04-14 13:44:16.679 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:16.679 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.679 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.685 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.685 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.685 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:16.686 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:44:16.687 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=93bf7217-1637-479a-974a-adeb584b8477
+2026-04-14 13:44:16.687 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:44:16.689 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.refresh userId=93bf7217-1637-479a-974a-adeb584b8477
+2026-04-14 13:44:16.692 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:16.692 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.692 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.697 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.697 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.697 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:16.698 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:44:16.699 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=32c15110-748b-4d1c-8407-ba040f6efd8f
+2026-04-14 13:44:16.700 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:44:16.702 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:16.702 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.702 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.708 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.708 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.708 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:16.708 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:44:16.709 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=7cb5511c-5c4a-418a-80ad-19849725c0a4
+2026-04-14 13:44:16.709 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:44:16.712 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:16.713 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:16.713 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:16.721 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:16.722 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:16.722 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:16.722 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:44:16.723 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=d9036190-0348-4486-8d45-ab2fe054602a
+2026-04-14 13:44:16.724 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:44:16.726 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.logout userId=d9036190-0348-4486-8d45-ab2fe054602a
+2026-04-14 13:44:16.726 [main] INFO  org.jserver.core.AuthService - User d9036190-0348-4486-8d45-ab2fe054602a logged out
+2026-04-14 13:44:16.731 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:16.733 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:16.792 [main] WARN  org.jserver.api.RpcDispatcher - Method not found: unknown.method
+2026-04-14 13:44:16.795 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: method.a
+2026-04-14 13:44:16.797 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: method.b
+2026-04-14 13:44:16.799 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: test.method
+2026-04-14 13:44:16.801 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: test
+2026-04-14 13:44:16.809 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: system.health
+2026-04-14 13:44:16.809 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:17.292 [main] INFO  org.jserver.server.RpcHttpHandler - RpcHttpHandler created
+2026-04-14 13:44:17.313 [main] ERROR org.jserver.server.RpcHttpHandler - Failed to parse JSON-RPC request: Unrecognized token 'not': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 4]
+2026-04-14 13:44:17.315 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: system.health
+2026-04-14 13:44:17.316 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:17.316 [main] INFO  org.jserver.server.RpcHttpHandler - RpcHttpHandler created
+2026-04-14 13:44:17.356 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: system.health
+2026-04-14 13:44:17.356 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:17.356 [main] INFO  org.jserver.server.RpcHttpHandler - RpcHttpHandler created
+2026-04-14 13:44:17.542 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.543 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.543 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.549 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.549 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:17.550 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:17.551 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.552 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.552 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.556 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.557 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:17.557 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:17.557 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:44:17.558 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=45e7b472-8b18-4a99-8a7d-2af656fdb439
+2026-04-14 13:44:17.558 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:44:17.559 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.refresh userId=45e7b472-8b18-4a99-8a7d-2af656fdb439
+2026-04-14 13:44:17.560 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.560 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.561 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.564 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.565 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:17.565 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:17.566 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.566 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.566 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.570 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.570 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:44:17.570 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:44:17.571 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:44:17.572 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=47add510-dc24-492b-b33d-432e29702743
+2026-04-14 13:44:17.572 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:44:17.576 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:17.577 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:17.579 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:44:17.583 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_savesAndFindsUserByUsername__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.583 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.587 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.591 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_savesWithMultipleRoles__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.591 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.594 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.598 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_returnsEmptyForUnknownUser__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.598 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.601 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.604 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_updatesExistingUserOnSave__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.604 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.609 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.615 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_returnsEmptyForUnknownId__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.615 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.619 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.621 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_savesAndFindsUserById__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.621 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.625 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.629 [main] INFO  o.j.infrastructure.ServerConfig - Loading configuration from application.yml
+2026-04-14 13:44:17.697 [main] INFO  o.j.infrastructure.ServerConfig - Configuration loaded: port=8080, host=0.0.0.0, db=jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1, rateLimit=enabled
+2026-04-14 13:44:17.699 [main] INFO  o.j.infrastructure.ServerConfig - Loading configuration from application.yml
+2026-04-14 13:44:17.702 [main] INFO  o.j.infrastructure.ServerConfig - Configuration loaded: port=8080, host=0.0.0.0, db=jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1, rateLimit=enabled
+2026-04-14 13:44:17.703 [main] INFO  o.j.infrastructure.ServerConfig - Loading configuration from application.yml
+2026-04-14 13:44:17.706 [main] INFO  o.j.infrastructure.ServerConfig - Configuration loaded: port=8080, host=0.0.0.0, db=jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1, rateLimit=enabled
+2026-04-14 13:44:17.710 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_savesMultipleMethodConfigs__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.710 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.716 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.726 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_savesAndLoadsMethodConfig__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.726 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.730 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.733 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_returnsEmptyMapWhenNoConfigs__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.733 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.737 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.740 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_updatesExistingMethodConfig__;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.740 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.743 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.749 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_test_init;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.749 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:44:17.753 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:44:17.777 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_test_open;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.779 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_test_create;DB_CLOSE_DELAY=-1
+2026-04-14 13:44:17.782 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.784 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.785 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.787 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.789 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:44:17.794 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:05.431 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=100, refillRate=100/min
+2026-04-14 13:47:05.436 [main] INFO  o.j.middleware.RateLimitMiddleware - RateLimitMiddleware created
+2026-04-14 13:47:05.441 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=1, refillRate=1/min
+2026-04-14 13:47:05.441 [main] INFO  o.j.middleware.RateLimitMiddleware - RateLimitMiddleware created
+2026-04-14 13:47:05.442 [main] WARN  org.jserver.core.RateLimitService - Rate limit exceeded for IP: 127.0.0.1
+2026-04-14 13:47:05.442 [main] WARN  o.j.middleware.RateLimitMiddleware - Rate limit exceeded for request 04a998fc-3495-4448-b81f-d082cebce6df from IP 127.0.0.1
+2026-04-14 13:47:05.455 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:05.455 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:47:05.456 [main] WARN  o.jserver.middleware.AuthMiddleware - Missing or invalid Authorization header for request 0cbac4e5-4353-474f-87d7-1c34d38f08ba
+2026-04-14 13:47:05.459 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:05.459 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:47:05.487 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:05.487 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:47:05.488 [main] WARN  o.jserver.middleware.AuthMiddleware - Missing or invalid Authorization header for request b2f2a887-5620-4647-9e63-5c1b522fc31e
+2026-04-14 13:47:05.489 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:05.490 [main] INFO  o.jserver.middleware.AuthMiddleware - AuthMiddleware created
+2026-04-14 13:47:05.496 [main] INFO  o.j.middleware.LoggingMiddleware - Request [test-req-2] method=test ip=127.0.0.1
+2026-04-14 13:47:05.549 [main] INFO  o.j.middleware.LoggingMiddleware - Response [test-req-2] method=test status=success duration=53ms
+2026-04-14 13:47:05.552 [main] INFO  o.j.middleware.LoggingMiddleware - Request [test-req-1] method=system.health ip=127.0.0.1
+2026-04-14 13:47:05.552 [main] INFO  o.j.middleware.LoggingMiddleware - Response [test-req-1] method=system.health status=success duration=0ms
+2026-04-14 13:47:05.557 [main] INFO  o.j.middleware.LoggingMiddleware - Request [test-req-3] method=auth.login ip=10.0.0.1
+2026-04-14 13:47:05.557 [main] INFO  o.j.middleware.LoggingMiddleware - Response [test-req-3] method=auth.login status=error duration=0ms
+2026-04-14 13:47:05.565 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:47:05.567 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:47:05.568 [main] WARN  org.jserver.core.RateLimitService - Rate limit exceeded for IP: test-ip
+2026-04-14 13:47:05.570 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:47:05.571 [main] WARN  org.jserver.core.RateLimitService - Rate limit exceeded for IP: test-ip
+2026-04-14 13:47:05.576 [main] INFO  org.jserver.core.RateLimitService - RateLimitService created: capacity=10, refillRate=10/min
+2026-04-14 13:47:05.647 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsAnonymousAction__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:05.647 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.080 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.081 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.098 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=system.health userId=null
+2026-04-14 13:47:06.117 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsActionAndRetrievesIt__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.117 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.124 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.124 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.125 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=950f8dc2-d711-48f9-8708-5aa79762c6bd
+2026-04-14 13:47:06.128 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_returnsEmptyListWhenNoEntries__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.128 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.138 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.138 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.141 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_respectsLimitOnRecentEntries__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.142 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.149 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.149 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.151 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.0 userId=9b11a2a8-ab9d-466f-877e-6e70c836efef
+2026-04-14 13:47:06.158 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.1 userId=b9dd1c98-4eab-48c3-a6a6-92ca74d79786
+2026-04-14 13:47:06.165 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.2 userId=f40cf8bc-65e3-4dbc-a1b1-263ba538bebc
+2026-04-14 13:47:06.172 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.3 userId=97ebad6d-d970-4a9a-95cf-4c03e2348f1e
+2026-04-14 13:47:06.178 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=action.4 userId=94f4b8d9-122e-4fe6-b884-161a0c0d3002
+2026-04-14 13:47:06.187 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_audit_logsMultipleActionsAndRetrievesRecent__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.187 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.198 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.199 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.200 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=9b991fe0-aa8c-4e21-8f80-2809c35a9eb2
+2026-04-14 13:47:06.211 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=data.query userId=9b991fe0-aa8c-4e21-8f80-2809c35a9eb2
+2026-04-14 13:47:06.217 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.218 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.218 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.225 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.226 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.226 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.226 [main] WARN  org.jserver.core.AuthService - Invalid refresh token
+2026-04-14 13:47:06.229 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.229 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.229 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.237 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.238 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.238 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.238 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:47:06.240 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=95a76114-57f6-4234-b904-8c5a4be92ae1
+2026-04-14 13:47:06.240 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:47:06.243 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.refresh userId=95a76114-57f6-4234-b904-8c5a4be92ae1
+2026-04-14 13:47:06.249 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.250 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.250 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.258 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.258 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.258 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.258 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:47:06.261 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=ab7ca507-8de5-48d9-97c4-5030fef68ec2
+2026-04-14 13:47:06.261 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:47:06.263 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.263 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.264 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.268 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.268 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.268 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.269 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:47:06.270 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=b6104ba4-822f-4822-af4d-20c7416226b4
+2026-04-14 13:47:06.270 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:47:06.275 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.276 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_auth_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.277 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.283 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.283 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.283 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.284 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:47:06.285 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=911a68df-65d2-4f4f-a6a9-2cc68e8ddf01
+2026-04-14 13:47:06.285 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:47:06.289 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.logout userId=911a68df-65d2-4f4f-a6a9-2cc68e8ddf01
+2026-04-14 13:47:06.289 [main] INFO  org.jserver.core.AuthService - User 911a68df-65d2-4f4f-a6a9-2cc68e8ddf01 logged out
+2026-04-14 13:47:06.298 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.300 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.378 [main] WARN  org.jserver.api.RpcDispatcher - Method not found: unknown.method
+2026-04-14 13:47:06.380 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: method.a
+2026-04-14 13:47:06.380 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: method.b
+2026-04-14 13:47:06.382 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: test.method
+2026-04-14 13:47:06.383 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: test
+2026-04-14 13:47:06.390 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: system.health
+2026-04-14 13:47:06.390 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.699 [main] INFO  org.jserver.server.RpcHttpHandler - RpcHttpHandler created
+2026-04-14 13:47:06.720 [main] ERROR org.jserver.server.RpcHttpHandler - Failed to parse JSON-RPC request: Unrecognized token 'not': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 4]
+2026-04-14 13:47:06.723 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: system.health
+2026-04-14 13:47:06.723 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.723 [main] INFO  org.jserver.server.RpcHttpHandler - RpcHttpHandler created
+2026-04-14 13:47:06.752 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: system.health
+2026-04-14 13:47:06.752 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.752 [main] INFO  org.jserver.server.RpcHttpHandler - RpcHttpHandler created
+2026-04-14 13:47:06.899 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.899 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.899 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.904 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.905 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.906 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.910 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.910 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.910 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.914 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.914 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.914 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.915 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:47:06.916 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=58ab166b-2ad9-4219-829b-be5abe7c9848
+2026-04-14 13:47:06.916 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:47:06.917 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.refresh userId=58ab166b-2ad9-4219-829b-be5abe7c9848
+2026-04-14 13:47:06.919 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.919 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.919 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.924 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.924 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.924 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.926 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:06.927 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:auth_handler_test;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.927 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.936 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.936 [main] INFO  org.jserver.core.AuditService - AuditService created
+2026-04-14 13:47:06.936 [main] INFO  org.jserver.core.AuthService - AuthService created
+2026-04-14 13:47:06.937 [main] INFO  org.jserver.core.AuthService - Login attempt for user: admin
+2026-04-14 13:47:06.938 [main] DEBUG org.jserver.core.AuditService - Audit logged: action=auth.login userId=57096186-7987-4ee3-8197-f1ce95e09cf3
+2026-04-14 13:47:06.939 [main] INFO  org.jserver.core.AuthService - User admin logged in successfully
+2026-04-14 13:47:06.943 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.945 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.946 [main] INFO  org.jserver.core.HealthService - HealthService created
+2026-04-14 13:47:06.950 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: method.a
+2026-04-14 13:47:06.950 [main] INFO  org.jserver.api.RpcDispatcher - Registered handler for method: method.b
+2026-04-14 13:47:06.955 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_savesAndFindsUserByUsername__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.956 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.961 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.967 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_savesWithMultipleRoles__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.967 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.973 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.977 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_returnsEmptyForUnknownUser__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.977 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:06.984 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:06.988 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_updatesExistingUserOnSave__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:06.988 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.000 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.004 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_returnsEmptyForUnknownId__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.005 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.008 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.011 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_user_savesAndFindsUserById__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.011 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.016 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.024 [main] INFO  o.j.infrastructure.ServerConfig - Loading configuration from application.yml
+2026-04-14 13:47:07.095 [main] INFO  o.j.infrastructure.ServerConfig - Configuration loaded: port=8080, host=0.0.0.0, db=jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1, rateLimit=enabled
+2026-04-14 13:47:07.096 [main] INFO  o.j.infrastructure.ServerConfig - Loading configuration from application.yml
+2026-04-14 13:47:07.099 [main] INFO  o.j.infrastructure.ServerConfig - Configuration loaded: port=8080, host=0.0.0.0, db=jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1, rateLimit=enabled
+2026-04-14 13:47:07.100 [main] INFO  o.j.infrastructure.ServerConfig - Loading configuration from application.yml
+2026-04-14 13:47:07.103 [main] INFO  o.j.infrastructure.ServerConfig - Configuration loaded: port=8080, host=0.0.0.0, db=jdbc:h2:mem:jserver;DB_CLOSE_DELAY=-1, rateLimit=enabled
+2026-04-14 13:47:07.106 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_savesMultipleMethodConfigs__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.107 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.111 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.116 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_savesAndLoadsMethodConfig__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.116 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.120 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.123 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_returnsEmptyMapWhenNoConfigs__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.123 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.128 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.131 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_config_updatesExistingMethodConfig__;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.131 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.136 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.145 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_test_init;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.145 [main] INFO  o.j.infrastructure.H2DataSource - Initializing database schema
+2026-04-14 13:47:07.150 [main] INFO  o.j.infrastructure.H2DataSource - Database schema initialized
+2026-04-14 13:47:07.176 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_test_open;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.184 [main] INFO  o.j.infrastructure.H2DataSource - H2 DataSource created: jdbc:h2:mem:jserver_test_create;DB_CLOSE_DELAY=-1
+2026-04-14 13:47:07.187 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:07.189 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:07.191 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:07.193 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:07.194 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H
+2026-04-14 13:47:07.196 [main] INFO  o.jserver.infrastructure.JwtProvider - JwtProvider created with accessTtl=PT15M, refreshTtl=PT168H

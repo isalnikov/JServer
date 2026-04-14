@@ -11,6 +11,7 @@ org/jserver/core/RateLimitServiceTest.class
 org/jserver/infrastructure/H2DataSourceTest.class
 org/jserver/server/RpcHttpHandlerTest.class
 org/jserver/api/RpcDispatcherTest.class
+org/jserver/handlers/SystemHelpHandlerTest.class
 org/jserver/middleware/LoggingMiddlewareTest$TestChainWithError.class
 org/jserver/infrastructure/ServerConfigTest.class
 org/jserver/middleware/MiddlewareTest.class
@@ -20,6 +21,7 @@ org/jserver/IntegrationTest.class
 org/jserver/core/HealthServiceTest.class
 org/jserver/model/UserTest.class
 org/jserver/api/JsonRpcErrorTest.class
+org/jserver/server/HttpServerBootstrapTest.class
 org/jserver/handlers/AuthHandlerTest.class
 org/jserver/middleware/AuthMiddlewareTest.class
 org/jserver/handlers/HealthHandlerTest.class

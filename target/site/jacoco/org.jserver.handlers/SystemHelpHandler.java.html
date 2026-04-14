@@ -21,15 +21,15 @@ public class SystemHelpHandler implements RpcMethodHandler {
      *
      * @param dispatcher диспетчер методов
      */
-<span class="nc" id="L24">    public SystemHelpHandler(RpcDispatcher dispatcher) {</span>
-<span class="nc" id="L25">        this.dispatcher = dispatcher;</span>
-<span class="nc" id="L26">    }</span>
+<span class="fc" id="L24">    public SystemHelpHandler(RpcDispatcher dispatcher) {</span>
+<span class="fc" id="L25">        this.dispatcher = dispatcher;</span>
+<span class="fc" id="L26">    }</span>
 
     @Override
     public CompletableFuture&lt;JsonRpcResponse&gt; handle(JsonRpcRequest request, RequestContext ctx) {
-<span class="nc" id="L30">        var methods = dispatcher.getRegisteredMethods().stream().sorted().toList();</span>
-<span class="nc" id="L31">        return CompletableFuture.completedFuture(</span>
-<span class="nc" id="L32">            JsonRpcResponse.success(&quot;2.0&quot;, Map.of(&quot;methods&quot;, methods), request.id()));</span>
+<span class="fc" id="L30">        var methods = dispatcher.getRegisteredMethods().stream().sorted().toList();</span>
+<span class="fc" id="L31">        return CompletableFuture.completedFuture(</span>
+<span class="fc" id="L32">            JsonRpcResponse.success(&quot;2.0&quot;, Map.of(&quot;methods&quot;, methods), request.id()));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
