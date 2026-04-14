@@ -56,4 +56,15 @@ class RpcHttpHandlerTest {
         assertNotNull(request);
         assertNull(request.method());
     }
+
+    @Test
+    void helpEndpointIsRegistered() {
+        // HelpPageGenerator генерирует HTML
+        var html = org.jserver.server.HelpPageGenerator.generate();
+        assertNotNull(html);
+        assertTrue(html.contains("JServer"));
+        assertTrue(html.contains("JSON-RPC"));
+        assertTrue(html.contains("system.health"));
+        assertTrue(html.contains("auth.login"));
+    }
 }

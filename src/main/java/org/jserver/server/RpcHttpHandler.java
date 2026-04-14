@@ -11,6 +11,7 @@ import org.jserver.api.JsonRpcResponse;
 import org.jserver.api.RequestContext;
 import org.jserver.core.HealthService;
 import org.jserver.middleware.MiddlewareChain;
+import org.jserver.server.HelpPageGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sun.net.httpserver.HttpExchange;
@@ -51,6 +52,7 @@ public class RpcHttpHandler implements HttpHandler {
                 case "/rpc" -> handleRpc(exchange);
                 case "/health" -> handleHealth(exchange);
                 case "/version" -> handleVersion(exchange);
+                case "/help" -> handleHelp(exchange);
                 default -> sendNotFound(exchange);
             }
         } catch (Exception e) {
@@ -125,6 +127,16 @@ public class RpcHttpHandler implements HttpHandler {
         Map<String, String> version = healthService.getVersion();
         byte[] response = objectMapper.writeValueAsBytes(version);
         exchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE);
+        exchange.sendResponseHeaders(200, response.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(response);
+        }
+    }
+
+    private void handleHelp(HttpExchange exchange) throws IOException {
+        String html = HelpPageGenerator.generate();
+        byte[] response = html.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
         exchange.sendResponseHeaders(200, response.length);
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(response);
