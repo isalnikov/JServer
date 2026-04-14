@@ -18,7 +18,7 @@ public class JServerApplication {
      */
     public static void main(String[] args) {
         logger.info("JServer starting...");
-        System.out.println("JServer v1.0.0-SNAPSHOT");
+        logger.info("JServer v{}-SNAPSHOT", "1.0.0");
         logger.info("JServer started successfully");
     }
 }
