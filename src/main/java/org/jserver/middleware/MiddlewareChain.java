@@ -17,7 +17,7 @@ public class MiddlewareChain {
     private final RpcHandler finalHandler;
 
     /**
-     * Функциональный интерфейссс для финального обработчика.
+     * Функциональный интерфейс для финального обработчика.
      */
     @FunctionalInterface
     public interface RpcHandler {
